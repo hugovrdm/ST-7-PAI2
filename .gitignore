@@ -1,0 +1,15 @@
+# Claves privadas y datos de la PKI (se regeneran con create_ca.py)
+pki/store/
+*.key
+
+# Base de datos local
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Resultados temporales
+benchmark/results/*.tmp
