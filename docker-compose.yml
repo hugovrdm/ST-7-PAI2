@@ -1,0 +1,47 @@
+services:
+  pki-init:
+    build: .
+    env_file: .env
+    volumes:
+      - ./pki/store:/app/pki/store
+      - ./data:/app/data
+    command: >
+      sh -c "[ -f pki/store/ca.crt ] || python -m pki.create_ca &&
+             [ -f pki/store/server.crt ] || python -m pki.issue_cert server
+               --cn vpn.u-secure.es --dns vpn.u-secure.es localhost --ip 127.0.0.1 &&
+             python -m app.seed_users --n 300"
+
+  server:
+    build: .
+    env_file: .env
+    depends_on:
+      pki-init:
+        condition: service_completed_successfully
+    volumes:
+      - ./pki/store:/app/pki/store
+      - ./data:/app/data
+      - ./logs:/app/logs
+    ports:
+      - "8443:8443"
+    networks:
+      default:
+        aliases: [vpn.u-secure.es]
+    command: python -m app.server --host 0.0.0.0 --port 8443
+
+  sniffer:
+    image: nicolaka/netshoot
+    network_mode: "service:server"
+    cap_add: [NET_ADMIN, NET_RAW]
+    volumes:
+      - ./evidence:/evidence
+    command: tcpdump -i any -w /evidence/captura_tls.pcap port 8443
+
+  client:
+    build: .
+    profiles: ["tools"]
+    env_file: .env
+    depends_on: [server]
+    volumes:
+      - ./pki/store:/app/pki/store
+      - ./evidence:/app/evidence
+    command: python -m app.client --host vpn.u-secure.es --port 8443 --user user001

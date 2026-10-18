@@ -1,0 +1,6 @@
+pki/store
+data
+logs
+evidence
+__pycache__
+.env

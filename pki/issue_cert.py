@@ -6,6 +6,7 @@ from pathlib import Path
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
 from cryptography.x509.oid import ExtendedKeyUsageOID
+from cryptography.hazmat.primitives.asymmetric import ec, rsa
 
 from pki import pki_utils as u
 
@@ -56,6 +57,13 @@ def make_csr(key, username: str) -> x509.CertificateSigningRequest:
             .subject_name(u.subject_name(username))
             .sign(key, u.SIG_HASH))
 
+def _check_public_key(pub) -> None:
+    ok_ec = isinstance(pub, ec.EllipticCurvePublicKey) and \
+            pub.curve.name in ("secp256r1", "secp384r1")
+    ok_rsa = isinstance(pub, rsa.RSAPublicKey) and pub.key_size >= 2048
+    if not (ok_ec or ok_rsa):
+        raise ValueError("Clave publica no aceptada (EC P-256/P-384 o RSA>=2048)")
+
 
 def sign_client_csr(csr: x509.CertificateSigningRequest, username: str,
                     role: str, days: int = 365) -> x509.Certificate:
@@ -64,12 +72,14 @@ def sign_client_csr(csr: x509.CertificateSigningRequest, username: str,
         raise ValueError(f"Rol invalido: {role}")
     if not csr.is_signature_valid:
         raise ValueError("CSR con firma invalida (no hay prueba de posesion de la clave)")
+    _check_public_key(csr.public_key())
+    
     if u.active_client_cert(username):
         # RF1 (inmutabilidad): hace falta revocar antes de re-emitir
         raise ValueError(f"'{username}' ya tiene un certificado activo; revocalo antes")
 
     ca_cert, ca_key = u.load_ca()
-    san = [x509.RFC822Name(f"{username}@u-secure.es")]
+    san = [x509.DNSName(d) for d in dict.fromkeys([cn, *dns])]
     cert = _build(u.subject_name(username, ou=role), csr.public_key(), ca_cert, ca_key,
                   ExtendedKeyUsageOID.CLIENT_AUTH, san, days)
     u.register_cert(cert, username, "client", role)

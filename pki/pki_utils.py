@@ -88,9 +88,11 @@ def load_index() -> dict:
 
 
 def save_index(index: dict) -> None:
+    """Escritura atómica: evita dejar index.json corrupto si algo falla."""
     INDEX_FILE.parent.mkdir(parents=True, exist_ok=True)
-    INDEX_FILE.write_text(json.dumps(index, indent=2), encoding="utf-8")
-
+    tmp = INDEX_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(index, indent=2), encoding="utf-8")
+    os.replace(tmp, INDEX_FILE)
 
 def register_cert(cert: x509.Certificate, cn: str, kind: str, role: str | None = None) -> None:
     index = load_index()
@@ -108,8 +110,11 @@ def register_cert(cert: x509.Certificate, cn: str, kind: str, role: str | None =
 
 
 def active_client_cert(cn: str) -> dict | None:
+    """Certificado de cliente activo Y no caducado."""
     for entry in load_index()["certs"]:
-        if entry["kind"] == "client" and entry["cn"] == cn and entry["status"] == "active":
+        if (entry["kind"] == "client" and entry["cn"] == cn
+                and entry["status"] == "active"
+                and dt.datetime.fromisoformat(entry["not_after"]) > now()):
             return entry
     return None
 

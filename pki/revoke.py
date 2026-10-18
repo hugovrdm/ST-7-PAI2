@@ -14,8 +14,8 @@ from pki import pki_utils as u
 def revoke(user: str | None = None, serial: str | None = None) -> str:
     index = u.load_index()
     for e in index["certs"]:
-        match = (e["serial"] == serial.lower()) if serial else \
-                (e["cn"] == user and e["kind"] == "client")
+        match = e["serial"].startswith(serial.lower()) if serial else \
+            (e["cn"] == user and e["kind"] == "client")
         if match and e["status"] == "active":
             e["status"] = "revoked"
             e["revoked_at"] = u.now().isoformat()
@@ -27,8 +27,8 @@ def revoke(user: str | None = None, serial: str | None = None) -> str:
 
 def list_certs() -> None:
     for e in u.load_index()["certs"]:
-        print(f"{e['serial'][:12]:<14} {e['kind']:<7} {e['cn']:<20} "
-              f"{str(e['role']):<13} {e['status']}")
+        print(f"{e['serial']:<40} {e['kind']:<7} {e['cn']:<20} "
+            f"{str(e['role']):<13} {e['status']}")
 
 
 if __name__ == "__main__":
