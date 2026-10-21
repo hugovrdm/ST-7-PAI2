@@ -18570,3 +18570,11 @@
 2026-10-21 21:54:04,312 | DISCONNECT peer=172.20.0.3:56742 user=nuevo01 reason=logout duration=0.06s active=0
 2026-10-21 21:54:10,986 | CRL_RELOADED
 2026-10-21 21:54:21,288 | TLS_FAIL peer=172.20.0.3:36342 reason=[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate revoked (_ssl.c:1010)
+2026-10-21 22:04:17,966 | CONNECT peer=172.20.0.3:33562 cert_cn=nuevo01 serial=4e923f108c24 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+2026-10-21 22:04:18,021 | LOGIN_OK user=nuevo01 role=PDI peer=172.20.0.3:33562
+2026-10-21 22:04:18,022 | DISCONNECT peer=172.20.0.3:33562 user=nuevo01 reason=logout duration=0.06s active=0
+2026-10-21 22:06:38,870 | CONNECT peer=172.20.0.3:46512 cert_cn=user010 serial=7f925d5a86fb TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+2026-10-21 22:06:38,921 | LOGIN_OK user=user010 role=PDI peer=172.20.0.3:46512
+2026-10-21 22:06:38,923 | DISCONNECT peer=172.20.0.3:46512 user=user010 reason=logout duration=0.05s active=0
+2026-10-21 22:06:39,235 | CONNECT peer=172.20.0.3:46520 cert_cn=user010 serial=7f925d5a86fb TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+2026-10-21 22:06:39,835 | DISCONNECT peer=172.20.0.3:46520 user=None reason=error:SSLError duration=0.60s active=0

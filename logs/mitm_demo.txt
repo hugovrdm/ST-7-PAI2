@@ -1,0 +1,6 @@
+[PASS] MITM activo con certificado falso: el cliente debe rechazarlo
+       -> [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1010)
+[PASS] Interceptacion pasiva: la sesion funciona y no se ve el secreto
+       -> sesion_ok=True bytes_capturados=6972 secreto_visible=False inicio=16030105c7010005c30303a7e37111ddf15e1557b04f793c
+[PASS] Alteracion de un bit en transito: la sesion debe abortar
+       -> alteracion_realizada=True; sesion abortada: SSLError: [SSL: SSLV3_ALERT_BAD_RECORD_MAC] ssl/tls alert bad record mac (_ssl.c:2580)

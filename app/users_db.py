@@ -23,6 +23,24 @@ def _conn() -> sqlite3.Connection:
         created_at  TEXT NOT NULL)""")
     return c
 
+def get(username: str) -> dict | None:
+    conn = _conn()
+    try:
+        row = conn.execute("SELECT role, cert_serial FROM users WHERE username=?",
+                           (username,)).fetchone()
+    finally:
+        conn.close()
+    return {"role": row[0], "cert_serial": row[1]} if row else None
+
+def update_serial(username: str, serial: str) -> None:
+    """Solo para el proceso explicito de re-emision (app/reissue_user.py)."""
+    conn = _conn()
+    try:
+        with conn:
+            conn.execute("UPDATE users SET cert_serial=? WHERE username=?", (serial, username))
+    finally:
+        conn.close()
+
 def _hash(password: str, salt: bytes) -> bytes:
     with _KDF:                      # limita memoria: max. N scrypt a la vez
         return hashlib.scrypt(password.encode(), salt=salt,
