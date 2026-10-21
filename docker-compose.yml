@@ -50,4 +50,4 @@ services:
       - ./pki:/app/pki
       - ./app:/app/app
       - ./evidence:/app/evidence
-    command: python -m app.client --host vpn.u-secure.es --port 8443 --user user001
+    command: python -m app.client --host vpn.u-secure.es --port 8443 --user user001 --demo --msg "hola"

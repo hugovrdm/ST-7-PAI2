@@ -1,0 +1,4 @@
+2026-10-21 18:13:39,780 | SERVER_START host=0.0.0.0 port=8443 workers=400
+2026-10-21 18:13:53,415 | CONNECT peer=172.20.0.3:59008 cert_cn=user001 serial=a682b02532cf TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+2026-10-21 18:13:53,474 | LOGIN_OK user=user001 role=PDI peer=172.20.0.3:59008
+2026-10-21 18:13:53,475 | DISCONNECT peer=172.20.0.3:59008 user=user001 reason=logout duration=0.06s active=0
