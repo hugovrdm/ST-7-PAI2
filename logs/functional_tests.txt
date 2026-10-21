@@ -1,0 +1,11 @@
+[PASS] RF1 alta correcta con CSR 
+[PASS] RF1 clave y certificado guardados en el dispositivo 
+[PASS] RF1 inmutabilidad: re-registro rechazado 
+[PASS] RF1 codigo de alta incorrecto 
+[PASS] RF1 nombre de usuario invalido 
+[PASS] RF1 rol invalido 
+[PASS] RF1 contrasena debil 
+[PASS] RF2 login correcto (cert + password) 
+[PASS] RF2 password incorrecta 
+[PASS] RF2 cert propio con identidad ajena (user003) 
+[PASS] RF4 sesion inutilizable tras LOGOUT 

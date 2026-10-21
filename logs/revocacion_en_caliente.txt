@@ -1,0 +1,15 @@
+server-1  | 2026-10-21 21:40:55,770 | CONNECT peer=172.20.0.3:38156 cert_cn=user001 serial=4f127033f8fd TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:40:55,771 | DISCONNECT peer=172.20.0.3:38156 user=None reason=error:BrokenPipeError duration=0.00s active=0
+server-1  | 2026-10-21 21:40:55,773 | CONNECT peer=172.20.0.3:38172 cert_cn=user001 serial=4f127033f8fd TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:40:55,774 | DISCONNECT peer=172.20.0.3:38172 user=None reason=error:BrokenPipeError duration=0.00s active=0
+server-1  | 2026-10-21 21:40:55,776 | CONNECT peer=172.20.0.3:38188 cert_cn=user001 serial=4f127033f8fd TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:40:55,776 | DISCONNECT peer=172.20.0.3:38188 user=None reason=error:BrokenPipeError duration=0.00s active=0
+server-1  | 2026-10-21 21:40:55,778 | CONNECT peer=172.20.0.3:38196 cert_cn=user001 serial=4f127033f8fd TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:40:55,778 | DISCONNECT peer=172.20.0.3:38196 user=None reason=error:BrokenPipeError duration=0.00s active=0
+server-1  | 2026-10-21 21:40:55,780 | CONNECT peer=172.20.0.3:38204 cert_cn=user001 serial=4f127033f8fd TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:40:55,781 | DISCONNECT peer=172.20.0.3:38204 user=None reason=error:BrokenPipeError duration=0.00s active=0
+server-1  | 2026-10-21 21:54:04,256 | CONNECT peer=172.20.0.3:56742 cert_cn=nuevo01 serial=73cf1765d149 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:54:04,311 | LOGIN_OK user=nuevo01 role=PDI peer=172.20.0.3:56742
+server-1  | 2026-10-21 21:54:04,312 | DISCONNECT peer=172.20.0.3:56742 user=nuevo01 reason=logout duration=0.06s active=0
+server-1  | 2026-10-21 21:54:10,986 | CRL_RELOADED
+server-1  | 2026-10-21 21:54:21,288 | TLS_FAIL peer=172.20.0.3:36342 reason=[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate revoked (_ssl.c:1010)

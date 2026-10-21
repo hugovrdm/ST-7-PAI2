@@ -6,16 +6,16 @@
       "clientes_ok": 300,
       "errores": 0,
       "causas": {},
-      "wall_s": 2.83,
-      "msgs_s": 2118.5,
-      "kb_s": 1059.2,
-      "conn_p50_ms": 70.39,
-      "conn_p95_ms": 130.91,
-      "login_p50_ms": 1549.67,
-      "login_p95_ms": 2488.12,
-      "rtt_mean_ms": 1.46,
-      "rtt_p50_ms": 0.38,
-      "rtt_p95_ms": 6.34
+      "wall_s": 2.98,
+      "msgs_s": 2016.0,
+      "kb_s": 1008.0,
+      "conn_p50_ms": 63.2,
+      "conn_p95_ms": 134.14,
+      "login_p50_ms": 1595.72,
+      "login_p95_ms": 2650.8,
+      "rtt_mean_ms": 1.34,
+      "rtt_p50_ms": 0.37,
+      "rtt_p95_ms": 6.17
     },
     {
       "modo": "tls13_mtls",
@@ -23,21 +23,21 @@
       "clientes_ok": 300,
       "errores": 0,
       "causas": {},
-      "wall_s": 3.19,
-      "msgs_s": 1881.1,
-      "kb_s": 940.6,
-      "conn_p50_ms": 198.14,
-      "conn_p95_ms": 489.29,
-      "login_p50_ms": 1778.9,
-      "login_p95_ms": 2648.17,
-      "rtt_mean_ms": 2.35,
-      "rtt_p50_ms": 1.33,
-      "rtt_p95_ms": 8.33
+      "wall_s": 3.2,
+      "msgs_s": 1875.1,
+      "kb_s": 937.5,
+      "conn_p50_ms": 233.92,
+      "conn_p95_ms": 542.44,
+      "login_p50_ms": 1695.45,
+      "login_p95_ms": 2703.68,
+      "rtt_mean_ms": 2.15,
+      "rtt_p50_ms": 1.04,
+      "rtt_p95_ms": 7.79
     }
   ],
   "secuencial": {
-    "tcp_connect_ms_mediana": 0.405,
-    "tls_mtls_handshake_ms_mediana": 2.203,
-    "handshake_extra_ms": 1.799
+    "tcp_connect_ms_mediana": 0.42,
+    "tls_mtls_handshake_ms_mediana": 2.574,
+    "handshake_extra_ms": 2.154
   }
 }

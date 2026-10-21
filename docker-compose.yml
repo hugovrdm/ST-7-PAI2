@@ -31,7 +31,7 @@ services:
     networks:
       default:
         aliases: [vpn.u-secure.es]
-    command: python -m app.server --host 0.0.0.0 --port 8443 --plain-port 8080
+    command: python -m app.server --host 0.0.0.0 --port 8443 --plain-port 8080 --reg-port 8444
   sniffer:
     build: .
     network_mode: "service:server"

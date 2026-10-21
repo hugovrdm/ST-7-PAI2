@@ -1,0 +1,25 @@
+server-1  | 2026-10-21 21:32:46,520 | SERVER_START host=0.0.0.0 port=8443 workers=400
+server-1  | 2026-10-21 21:32:46,521 | PLAIN_LISTENER port=8080 (SIN CIFRAR, SOLO BENCHMARK)
+server-1  | 2026-10-21 21:32:46,521 | REG_LISTENER port=8444
+server-1  | 2026-10-21 21:33:19,205 | REGISTER_OK user='nuevo01' peer=172.20.0.3:53612 
+server-1  | 2026-10-21 21:33:20,327 | CONNECT peer=172.20.0.3:58238 cert_cn=nuevo01 serial=73cf1765d149 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:33:20,394 | LOGIN_OK user=nuevo01 role=PDI peer=172.20.0.3:58238
+server-1  | 2026-10-21 21:33:20,396 | DISCONNECT peer=172.20.0.3:58238 user=nuevo01 reason=logout duration=0.07s active=0
+server-1  | 2026-10-21 21:33:21,675 | REGISTER_OK user='test_f1d855' peer=172.20.0.3:53624 
+server-1  | 2026-10-21 21:33:21,708 | REGISTER_FAIL user='test_f1d855' peer=172.20.0.3:53628 user_exists
+server-1  | 2026-10-21 21:33:21,747 | REGISTER_FAIL user='test_f1d855x' peer=172.20.0.3:53634 bad_token
+server-1  | 2026-10-21 21:33:21,800 | REGISTER_FAIL user='Mal Usuario' peer=172.20.0.3:53636 bad_username
+server-1  | 2026-10-21 21:33:21,848 | REGISTER_FAIL user='test_f1d855y' peer=172.20.0.3:53640 bad_role
+server-1  | 2026-10-21 21:33:21,913 | REGISTER_FAIL user='test_f1d855z' peer=172.20.0.3:53656 weak_password
+server-1  | 2026-10-21 21:33:21,970 | CONNECT peer=172.20.0.3:58240 cert_cn=test_f1d855 serial=3b34c3df4c55 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:33:22,014 | LOGIN_OK user=test_f1d855 role=PDI peer=172.20.0.3:58240
+server-1  | 2026-10-21 21:33:22,016 | DISCONNECT peer=172.20.0.3:58240 user=test_f1d855 reason=logout duration=0.05s active=0
+server-1  | 2026-10-21 21:33:22,027 | CONNECT peer=172.20.0.3:58242 cert_cn=test_f1d855 serial=3b34c3df4c55 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:33:22,071 | LOGIN_FAIL user='test_f1d855' cert_cn=test_f1d855 peer=172.20.0.3:58242 attempt=1
+server-1  | 2026-10-21 21:33:22,073 | DISCONNECT peer=172.20.0.3:58242 user=None reason=peer_closed duration=0.05s active=0
+server-1  | 2026-10-21 21:33:22,085 | CONNECT peer=172.20.0.3:58258 cert_cn=test_f1d855 serial=3b34c3df4c55 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:33:22,138 | LOGIN_FAIL user='user003' cert_cn=test_f1d855 peer=172.20.0.3:58258 attempt=1
+server-1  | 2026-10-21 21:33:22,139 | DISCONNECT peer=172.20.0.3:58258 user=None reason=peer_closed duration=0.05s active=0
+server-1  | 2026-10-21 21:33:22,150 | CONNECT peer=172.20.0.3:58272 cert_cn=test_f1d855 serial=3b34c3df4c55 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 21:33:22,203 | LOGIN_OK user=test_f1d855 role=PDI peer=172.20.0.3:58272
+server-1  | 2026-10-21 21:33:22,205 | DISCONNECT peer=172.20.0.3:58272 user=test_f1d855 reason=logout duration=0.05s active=0

@@ -2,8 +2,10 @@
 Uso (desde pai2/):  python -m app.server --host 0.0.0.0 --port 8443
 """
 import argparse
+import functools
 import json
 import logging
+import os
 import socket
 import ssl
 import threading
@@ -14,11 +16,12 @@ from pathlib import Path
 from cryptography import x509
 from cryptography.x509.oid import NameOID
 
-from app import users_db
+from app import registration, users_db
 from pki import pki_utils as u
 
 ALLOWED_CIPHERS = {"TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"}
 MAX_LINE = 4096
+MAX_REG_LINE = 16384
 HANDSHAKE_TIMEOUT = 10
 IDLE_TIMEOUT = 60
 MAX_ATTEMPTS = 3
@@ -55,6 +58,16 @@ def check_crl_fresh() -> None:
         raise SystemExit("CRL caducada: ejecuta  python -m pki.revoke --regen")
 
 _ctx = build_context()
+
+def build_reg_context() -> ssl.SSLContext:
+    """Puerto de alta: TLS 1.3, el servidor se autentica; el cliente aun no tiene cert."""
+    ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    ctx.minimum_version = ctx.maximum_version = ssl.TLSVersion.TLSv1_3
+    ctx.load_cert_chain(u.STORE / "server.crt", u.STORE / "server.key")
+    ctx.verify_mode = ssl.CERT_NONE
+    return ctx
+
+_reg_ctx = build_reg_context()
 
 def watch_crl() -> None:
     """Recarga el contexto TLS cuando cambia la CRL (revocacion en caliente)."""
@@ -154,8 +167,9 @@ def handle(raw: socket.socket, addr, plain: bool = False) -> None:
                     send({"ok": True, "role": info["role"]})
                 else:
                     attempts += 1
-                    audit.warning("LOGIN_FAIL user=%r cert_cn=%s peer=%s attempt=%d",
-                                  name, cn, peer, attempts)
+                    motivo = "bad_credentials" if not info else "identity_mismatch"
+                    audit.warning("LOGIN_FAIL user=%r cert_cn=%s peer=%s attempt=%d reason=%s",
+              name, cn, peer, attempts, motivo)
                     send({"ok": False, "error": "auth_failed"})
                     if attempts >= MAX_ATTEMPTS:
                         reason = "too_many_attempts"
@@ -180,40 +194,85 @@ def handle(raw: socket.socket, addr, plain: bool = False) -> None:
             pass
         _close(ssock)
 
+def handle_register(raw: socket.socket, addr) -> None:
+    peer = f"{addr[0]}:{addr[1]}"
+    raw.settimeout(HANDSHAKE_TIMEOUT)
+    try:
+        ssock = _reg_ctx.wrap_socket(raw, server_side=True)
+    except (ssl.SSLError, OSError) as e:
+        audit.warning("REG_TLS_FAIL peer=%s reason=%s", peer, e)
+        raw.close()
+        return
+    user, res = "", {"ok": False, "error": "bad_request"}
+    try:
+        ssock.settimeout(15)
+        f = ssock.makefile("rwb")
+        line = f.readline(MAX_REG_LINE + 1)
+        if line and len(line) <= MAX_REG_LINE:
+            try:
+                req = json.loads(line)
+            except ValueError:
+                req = None
+            if isinstance(req, dict) and req.get("cmd") == "REGISTER":
+                user = str(req.get("user", ""))[:64]
+                try:
+                    res = registration.register(req)
+                except Exception as e:
+                    audit.error("REG_INTERNAL peer=%s reason=%s", peer, type(e).__name__)
+                    res = {"ok": False, "error": "internal"}
+        level = logging.INFO if res["ok"] else logging.WARNING
+        audit.log(level, "REGISTER_%s user=%r peer=%s %s",
+                  "OK" if res["ok"] else "FAIL", user, peer, res.get("error", ""))
+        f.write((json.dumps(res) + "\n").encode())
+        f.flush()
+    except (OSError, ssl.SSLError) as e:
+        audit.warning("REG_ERROR peer=%s reason=%s", peer, e)
+    finally:
+        _close(ssock)
+
+
 # --- Main -------------------------------------------------------------------
-def serve(host: str, port: int, pool: ThreadPoolExecutor, plain: bool) -> None:
+def serve(host: str, port: int, pool: ThreadPoolExecutor, fn) -> None:
     srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     srv.bind((host, port))
     srv.listen(512)
     while True:
         conn, addr = srv.accept()
-        pool.submit(handle, conn, addr, plain)
+        pool.submit(fn, conn, addr)
+
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8443)
     ap.add_argument("--plain-port", type=int, default=0,
-                    help="puerto SIN CIFRAR, solo para benchmark/comparativa")
+                    help="puerto SIN CIFRAR, solo benchmark/comparativa")
+    ap.add_argument("--reg-port", type=int, default=0,
+                    help="puerto de alta de usuarios (TLS 1.3, sin mTLS)")
     ap.add_argument("--workers", type=int, default=400)
     a = ap.parse_args()
 
     check_crl_fresh()
+    if a.reg_port and not os.environ.get("PKI_ENROLL_TOKEN"):
+        raise SystemExit("Falta PKI_ENROLL_TOKEN: el registro queda deshabilitado")
     threading.Thread(target=watch_crl, daemon=True).start()
     pool = ThreadPoolExecutor(max_workers=a.workers)
     audit.info("SERVER_START host=%s port=%d workers=%d", a.host, a.port, a.workers)
     if a.plain_port:
-        threading.Thread(target=serve, args=(a.host, a.plain_port, pool, True),
-                         daemon=True).start()
+        threading.Thread(target=serve, daemon=True,
+                         args=(a.host, a.plain_port, pool, functools.partial(handle, plain=True))).start()
         audit.warning("PLAIN_LISTENER port=%d (SIN CIFRAR, SOLO BENCHMARK)", a.plain_port)
+    if a.reg_port:
+        threading.Thread(target=serve, daemon=True,
+                         args=(a.host, a.reg_port, pool, handle_register)).start()
+        audit.info("REG_LISTENER port=%d", a.reg_port)
     try:
-        serve(a.host, a.port, pool, False)
+        serve(a.host, a.port, pool, handle)
     except KeyboardInterrupt:
         audit.info("SERVER_STOP")
     finally:
         pool.shutdown(wait=False, cancel_futures=True)
-
 
 if __name__ == "__main__":
     main()
