@@ -31,16 +31,16 @@ services:
     networks:
       default:
         aliases: [vpn.u-secure.es]
-    command: python -m app.server --host 0.0.0.0 --port 8443
-
+    command: python -m app.server --host 0.0.0.0 --port 8443 --plain-port 8080
   sniffer:
-    image: nicolaka/netshoot
+    build: .
     network_mode: "service:server"
     cap_add: [NET_ADMIN, NET_RAW]
+    stop_signal: SIGINT
     volumes:
-      - ./evidence:/evidence
-    command: tcpdump -i any -w /evidence/captura_tls.pcap port 8443
-
+      - ./tests:/app/tests
+      - ./evidence:/app/evidence
+    command: python -m tests.capture --ports 8443 8080 --out /app/evidence/captura.pcap
   client:
     build: .
     profiles: ["tools"]
@@ -49,5 +49,6 @@ services:
     volumes:
       - ./pki:/app/pki
       - ./app:/app/app
+      - ./tests:/app/tests
       - ./evidence:/app/evidence
     command: python -m app.client --host vpn.u-secure.es --port 8443 --user user001 --demo --msg "hola"

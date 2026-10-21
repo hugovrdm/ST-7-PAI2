@@ -1,0 +1,17 @@
+server-1  | 2026-10-21 18:21:51,270 | SERVER_START host=0.0.0.0 port=8443 workers=400
+server-1  | 2026-10-21 18:22:08,598 | CONNECT peer=172.20.0.3:41566 cert_cn=user003 serial=6ec6a6a10d18 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 18:22:08,661 | LOGIN_OK user=user003 role=INVESTIGADOR peer=172.20.0.3:41566
+server-1  | 2026-10-21 18:22:08,662 | DISCONNECT peer=172.20.0.3:41566 user=user003 reason=logout duration=0.06s active=0
+server-1  | 2026-10-21 18:22:09,606 | TLS_FAIL peer=172.20.0.3:41582 reason=[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate revoked (_ssl.c:1010)
+server-1  | 2026-10-21 18:25:54,538 | CONNECT peer=172.20.0.3:54708 cert_cn=user003 serial=6ec6a6a10d18 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 18:25:54,539 | DISCONNECT peer=172.20.0.3:54708 user=None reason=logout duration=0.00s active=0
+server-1  | 2026-10-21 18:25:54,582 | TLS_FAIL peer=172.20.0.3:54724 reason=[SSL: PEER_DID_NOT_RETURN_A_CERTIFICATE] peer did not return a certificate (_ssl.c:1010)
+server-1  | 2026-10-21 18:25:54,585 | TLS_FAIL peer=172.20.0.3:54738 reason=[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1010)
+server-1  | 2026-10-21 18:25:54,586 | TLS_FAIL peer=172.20.0.3:54752 reason=[SSL: UNSUPPORTED_PROTOCOL] unsupported protocol (_ssl.c:1010)
+server-1  | 2026-10-21 18:25:54,590 | TLS_FAIL peer=172.20.0.3:54754 reason=[SSL: TLSV1_ALERT_UNKNOWN_CA] tlsv1 alert unknown ca (_ssl.c:1010)
+server-1  | 2026-10-21 18:26:10,461 | CONNECT peer=172.20.0.3:40018 cert_cn=user003 serial=6ec6a6a10d18 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+server-1  | 2026-10-21 18:26:10,462 | DISCONNECT peer=172.20.0.3:40018 user=None reason=logout duration=0.00s active=0
+server-1  | 2026-10-21 18:26:10,508 | TLS_FAIL peer=172.20.0.3:40028 reason=[SSL: PEER_DID_NOT_RETURN_A_CERTIFICATE] peer did not return a certificate (_ssl.c:1010)
+server-1  | 2026-10-21 18:26:10,511 | TLS_FAIL peer=172.20.0.3:40034 reason=[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1010)
+server-1  | 2026-10-21 18:26:10,512 | TLS_FAIL peer=172.20.0.3:40042 reason=[SSL: UNSUPPORTED_PROTOCOL] unsupported protocol (_ssl.c:1010)
+server-1  | 2026-10-21 18:26:10,515 | TLS_FAIL peer=172.20.0.3:40056 reason=[SSL: TLSV1_ALERT_UNKNOWN_CA] tlsv1 alert unknown ca (_ssl.c:1010)

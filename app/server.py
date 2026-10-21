@@ -89,34 +89,35 @@ def _close(ssock: ssl.SSLSocket) -> None:
     except Exception:
         ssock.close()
 
-def handle(raw: socket.socket, addr) -> None:
+def handle(raw: socket.socket, addr, plain: bool = False) -> None:
     peer = f"{addr[0]}:{addr[1]}"
-    raw.settimeout(HANDSHAKE_TIMEOUT)
-    try:
-        ssock = _ctx.wrap_socket(raw, server_side=True)
-    except (ssl.SSLError, OSError) as e:
-        audit.warning("TLS_FAIL peer=%s reason=%s", peer, e)
-        raw.close()
-        return
-
-    try:
-        cert = x509.load_der_x509_certificate(ssock.getpeercert(binary_form=True))
-        cn = cert.subject.get_attributes_for_oid(NameOID.COMMON_NAME)[0].value
-        serial = format(cert.serial_number, "x")
-        version, cipher = ssock.version(), ssock.cipher()[0]
-    except Exception as e:
-        audit.warning("TLS_FAIL peer=%s reason=cert_parse:%s", peer, e)
-        _close(ssock)
-        return
-
-    if version != "TLSv1.3" or cipher not in ALLOWED_CIPHERS:
-        audit.warning("CIPHER_REJECTED peer=%s version=%s cipher=%s", peer, version, cipher)
-        _close(ssock)
-        return
-
+    if plain:                       # SOLO BENCHMARK: canal sin cifrar
+        ssock, cn, serial, version, cipher = raw, None, None, "PLAIN", "none"
+    else:
+        raw.settimeout(HANDSHAKE_TIMEOUT)
+        try:
+            ssock = _ctx.wrap_socket(raw, server_side=True)
+        except (ssl.SSLError, OSError) as e:
+            audit.warning("TLS_FAIL peer=%s reason=%s", peer, e)
+            raw.close()
+            return
+        try:
+            cert = x509.load_der_x509_certificate(ssock.getpeercert(binary_form=True))
+            cn = cert.subject.get_attributes_for_oid(NameOID.COMMON_NAME)[0].value
+            serial = format(cert.serial_number, "x")
+            version, cipher = ssock.version(), ssock.cipher()[0]
+        except Exception as e:
+            audit.warning("TLS_FAIL peer=%s reason=cert_parse:%s", peer, e)
+            _close(ssock)
+            return
+        if version != "TLSv1.3" or cipher not in ALLOWED_CIPHERS:
+            audit.warning("CIPHER_REJECTED peer=%s version=%s cipher=%s", peer, version, cipher)
+            _close(ssock)
+            return
+        
     n = _count(+1)
     audit.info("CONNECT peer=%s cert_cn=%s serial=%s %s %s active=%d",
-               peer, cn, serial[:12], version, cipher, n)
+               peer, cn, (serial or "-")[:12], version, cipher, n)
     t0 = time.time()
     user, attempts, reason = None, 0, "peer_closed"
     ssock.settimeout(IDLE_TIMEOUT)
@@ -147,7 +148,7 @@ def handle(raw: socket.socket, addr) -> None:
             if cmd == "LOGIN" and user is None:
                 name = str(req.get("user", ""))[:64]
                 info = users_db.verify(name, str(req.get("password", "")))
-                if info and name == cn and info["cert_serial"] == serial:
+                if info and (plain or (name == cn and info["cert_serial"] == serial)):
                     user = name
                     audit.info("LOGIN_OK user=%s role=%s peer=%s", user, info["role"], peer)
                     send({"ok": True, "role": info["role"]})
@@ -180,31 +181,39 @@ def handle(raw: socket.socket, addr) -> None:
         _close(ssock)
 
 # --- Main -------------------------------------------------------------------
+def serve(host: str, port: int, pool: ThreadPoolExecutor, plain: bool) -> None:
+    srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind((host, port))
+    srv.listen(512)
+    while True:
+        conn, addr = srv.accept()
+        pool.submit(handle, conn, addr, plain)
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8443)
+    ap.add_argument("--plain-port", type=int, default=0,
+                    help="puerto SIN CIFRAR, solo para benchmark/comparativa")
     ap.add_argument("--workers", type=int, default=400)
     a = ap.parse_args()
 
     check_crl_fresh()
     threading.Thread(target=watch_crl, daemon=True).start()
-
-    srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    srv.bind((a.host, a.port))
-    srv.listen(512)
     pool = ThreadPoolExecutor(max_workers=a.workers)
     audit.info("SERVER_START host=%s port=%d workers=%d", a.host, a.port, a.workers)
+    if a.plain_port:
+        threading.Thread(target=serve, args=(a.host, a.plain_port, pool, True),
+                         daemon=True).start()
+        audit.warning("PLAIN_LISTENER port=%d (SIN CIFRAR, SOLO BENCHMARK)", a.plain_port)
     try:
-        while True:
-            conn, addr = srv.accept()
-            pool.submit(handle, conn, addr)
+        serve(a.host, a.port, pool, False)
     except KeyboardInterrupt:
         audit.info("SERVER_STOP")
     finally:
-        srv.close()
         pool.shutdown(wait=False, cancel_futures=True)
+
 
 if __name__ == "__main__":
     main()

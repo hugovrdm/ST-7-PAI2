@@ -4,8 +4,10 @@ import hashlib
 import hmac
 import os
 import sqlite3
+import threading
 from pathlib import Path
 
+_KDF = threading.BoundedSemaphore(max(2, os.cpu_count() or 4))
 DB = Path(__file__).resolve().parent.parent / "data" / "users.db"
 ROLES = {"PDI", "PAS", "INVESTIGADOR"}
 
@@ -22,8 +24,10 @@ def _conn() -> sqlite3.Connection:
     return c
 
 def _hash(password: str, salt: bytes) -> bytes:
-    return hashlib.scrypt(password.encode(), salt=salt,
-                          n=2**14, r=8, p=1, dklen=32)
+    with _KDF:                      # limita memoria: max. N scrypt a la vez
+        return hashlib.scrypt(password.encode(), salt=salt,
+                              n=2**14, r=8, p=1, dklen=32)
+
 
 def create_user(username: str, password: str, role: str, cert_serial: str) -> None:
     if role not in ROLES:

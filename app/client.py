@@ -26,24 +26,32 @@ def _rpc(f, obj: dict) -> dict:
         raise ConnectionError("el servidor cerro la conexion")
     return json.loads(line)
 
+def _talk(s, user: str, password: str, msgs: list[str]) -> dict:
+    f = s.makefile("rwb")
+    r = _rpc(f, {"cmd": "LOGIN", "user": user, "password": password})
+    if not r.get("ok"):
+        return {"ok": False, "error": r.get("error")}
+    replies = [_rpc(f, {"cmd": "MSG", "text": m}) for m in msgs]
+    _rpc(f, {"cmd": "LOGOUT"})
+    return {"ok": True, "role": r["role"], "replies": replies}
+
 def session(host: str, port: int, user: str, password: str,
-            msgs: list[str], verbose: bool = False) -> dict:
-    ctx = build_context(user)
+            msgs: list[str], verbose: bool = False, plain: bool = False) -> dict:
     raw = socket.create_connection((host, port), timeout=10)
+    if plain:                                   # SOLO comparativa/pcap
+        with raw as s:
+            return _talk(s, user, password, msgs)
+    ctx = build_context(user)
     with ctx.wrap_socket(raw, server_hostname=host) as s:
         if verbose:
             print(f"[TLS] {s.version()} {s.cipher()[0]}")
-        f = s.makefile("rwb")
-        r = _rpc(f, {"cmd": "LOGIN", "user": user, "password": password})
-        if not r.get("ok"):
-            return {"ok": False, "error": r.get("error")}
-        replies = [_rpc(f, {"cmd": "MSG", "text": m}) for m in msgs]
-        _rpc(f, {"cmd": "LOGOUT"})
+        res = _talk(s, user, password, msgs)
         try:
             s.unwrap()
         except (ssl.SSLError, OSError):
             pass
-        return {"ok": True, "role": r["role"], "replies": replies}
+        return res
+
 
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -54,12 +62,15 @@ def main() -> None:
     ap.add_argument("--demo", action="store_true",
                     help="usa la password de prueba del seed")
     ap.add_argument("--msg", action="append", default=[])
+    ap.add_argument("--plain", action="store_true",
+                    help="canal SIN cifrar (solo benchmark/pcap)")
     a = ap.parse_args()
 
     pwd = a.password or (f"Test#2026-{a.user}" if a.demo
                          else getpass.getpass("Password: "))
     try:
-        res = session(a.host, a.port, a.user, pwd, a.msg or ["ping"], verbose=True)
+        res = session(a.host, a.port, a.user, pwd, a.msg or ["ping"],
+                      verbose=True, plain=a.plain)
     except (ssl.SSLError, OSError, ConnectionError) as e:
         raise SystemExit(f"[ERROR] conexion rechazada: {e}")
     if res["ok"]:

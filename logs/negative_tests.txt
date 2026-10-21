@@ -1,0 +1,10 @@
+[PASS] Control positivo: cert valido + TLS 1.3
+       -> CONECTADO (TLSv1.3)
+[PASS] Sin certificado de cliente (mTLS)
+       -> RECHAZADO: [SSL: TLSV13_ALERT_CERTIFICATE_REQUIRED] tlsv13 alert certificate required (_ssl.c:2580)
+[PASS] Certificado autofirmado (suplantacion)
+       -> RECHAZADO: [SSL: TLSV1_ALERT_UNKNOWN_CA] tlsv1 alert unknown ca (_ssl.c:2580)
+[PASS] Solo TLS 1.2 con cert valido (downgrade)
+       -> RECHAZADO: [SSL: TLSV1_ALERT_PROTOCOL_VERSION] tlsv1 alert protocol version (_ssl.c:1010)
+[PASS] Cliente que no confia en la CA (valida server)
+       -> RECHAZADO: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1010)
