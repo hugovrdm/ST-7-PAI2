@@ -1,3 +1,3 @@
-modo,clientes_ok,errores,causas,wall_s,msgs_s,kb_s,conn_p50_ms,conn_p95_ms,login_p50_ms,login_p95_ms,rtt_mean_ms,rtt_p50_ms,rtt_p95_ms
-plain,20,0,{},0.3,1344.3,672.1,22.96,25.03,188.82,253.72,0.72,0.42,2.25
-tls13_mtls,20,0,{},0.27,1455.7,727.8,20.8,23.68,161.81,235.78,0.94,0.42,3.1
+modo,runs,clientes_ok,errores,causas,wall_s,msgs_s,kb_s,conn_p50_ms,conn_p95_ms,login_p50_ms,login_p95_ms,rtt_mean_ms,rtt_p50_ms,rtt_p95_ms
+plain,3,300,0,{},2.83,2118.5,1059.2,70.39,130.91,1549.67,2488.12,1.46,0.38,6.34
+tls13_mtls,3,300,0,{},3.19,1881.1,940.6,198.14,489.29,1778.9,2648.17,2.35,1.33,8.33

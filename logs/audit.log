@@ -15,3 +15,125 @@
 2026-10-21 18:26:10,511 | TLS_FAIL peer=172.20.0.3:40034 reason=[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1010)
 2026-10-21 18:26:10,512 | TLS_FAIL peer=172.20.0.3:40042 reason=[SSL: UNSUPPORTED_PROTOCOL] unsupported protocol (_ssl.c:1010)
 2026-10-21 18:26:10,515 | TLS_FAIL peer=172.20.0.3:40056 reason=[SSL: TLSV1_ALERT_UNKNOWN_CA] tlsv1 alert unknown ca (_ssl.c:1010)
+2026-10-21 18:39:40,091 | SERVER_START host=0.0.0.0 port=8443 workers=400
+2026-10-21 18:39:40,092 | PLAIN_LISTENER port=8080 (SIN CIFRAR, SOLO BENCHMARK)
+2026-10-21 18:39:56,283 | CONNECT peer=172.20.0.3:57804 cert_cn=None serial=- PLAIN none active=1
+2026-10-21 18:39:56,283 | CONNECT peer=172.20.0.3:57788 cert_cn=None serial=- PLAIN none active=2
+2026-10-21 18:39:56,284 | CONNECT peer=172.20.0.3:57790 cert_cn=None serial=- PLAIN none active=3
+2026-10-21 18:39:56,285 | CONNECT peer=172.20.0.3:57812 cert_cn=None serial=- PLAIN none active=4
+2026-10-21 18:39:56,286 | CONNECT peer=172.20.0.3:57826 cert_cn=None serial=- PLAIN none active=5
+2026-10-21 18:39:56,287 | CONNECT peer=172.20.0.3:57838 cert_cn=None serial=- PLAIN none active=6
+2026-10-21 18:39:56,288 | CONNECT peer=172.20.0.3:57842 cert_cn=None serial=- PLAIN none active=7
+2026-10-21 18:39:56,288 | CONNECT peer=172.20.0.3:57858 cert_cn=None serial=- PLAIN none active=8
+2026-10-21 18:39:56,290 | CONNECT peer=172.20.0.3:57870 cert_cn=None serial=- PLAIN none active=9
+2026-10-21 18:39:56,291 | CONNECT peer=172.20.0.3:57882 cert_cn=None serial=- PLAIN none active=10
+2026-10-21 18:39:56,292 | CONNECT peer=172.20.0.3:57888 cert_cn=None serial=- PLAIN none active=11
+2026-10-21 18:39:56,294 | CONNECT peer=172.20.0.3:57900 cert_cn=None serial=- PLAIN none active=12
+2026-10-21 18:39:56,295 | CONNECT peer=172.20.0.3:57912 cert_cn=None serial=- PLAIN none active=13
+2026-10-21 18:39:56,297 | CONNECT peer=172.20.0.3:57926 cert_cn=None serial=- PLAIN none active=14
+2026-10-21 18:39:56,298 | CONNECT peer=172.20.0.3:57942 cert_cn=None serial=- PLAIN none active=15
+2026-10-21 18:39:56,301 | CONNECT peer=172.20.0.3:57952 cert_cn=None serial=- PLAIN none active=16
+2026-10-21 18:39:56,302 | CONNECT peer=172.20.0.3:57958 cert_cn=None serial=- PLAIN none active=17
+2026-10-21 18:39:56,304 | CONNECT peer=172.20.0.3:57970 cert_cn=None serial=- PLAIN none active=18
+2026-10-21 18:39:56,307 | CONNECT peer=172.20.0.3:57974 cert_cn=None serial=- PLAIN none active=19
+2026-10-21 18:39:56,309 | CONNECT peer=172.20.0.3:57976 cert_cn=None serial=- PLAIN none active=20
+2026-10-21 18:39:56,416 | LOGIN_OK user=user018 role=INVESTIGADOR peer=172.20.0.3:57804
+2026-10-21 18:39:56,422 | DISCONNECT peer=172.20.0.3:57804 user=user018 reason=logout duration=0.14s active=19
+2026-10-21 18:39:56,436 | LOGIN_OK user=user016 role=PDI peer=172.20.0.3:57788
+2026-10-21 18:39:56,438 | LOGIN_OK user=user003 role=INVESTIGADOR peer=172.20.0.3:57790
+2026-10-21 18:39:56,445 | DISCONNECT peer=172.20.0.3:57788 user=user016 reason=logout duration=0.16s active=18
+2026-10-21 18:39:56,449 | DISCONNECT peer=172.20.0.3:57790 user=user003 reason=logout duration=0.16s active=17
+2026-10-21 18:39:56,452 | LOGIN_OK user=user015 role=INVESTIGADOR peer=172.20.0.3:57838
+2026-10-21 18:39:56,456 | LOGIN_OK user=user020 role=PAS peer=172.20.0.3:57826
+2026-10-21 18:39:56,458 | LOGIN_OK user=user017 role=PAS peer=172.20.0.3:57912
+2026-10-21 18:39:56,460 | LOGIN_OK user=user006 role=INVESTIGADOR peer=172.20.0.3:57842
+2026-10-21 18:39:56,466 | LOGIN_OK user=user012 role=INVESTIGADOR peer=172.20.0.3:57882
+2026-10-21 18:39:56,470 | DISCONNECT peer=172.20.0.3:57842 user=user006 reason=logout duration=0.18s active=16
+2026-10-21 18:39:56,473 | LOGIN_OK user=user007 role=PDI peer=172.20.0.3:57812
+2026-10-21 18:39:56,471 | LOGIN_OK user=user021 role=INVESTIGADOR peer=172.20.0.3:57870
+2026-10-21 18:39:56,471 | LOGIN_OK user=user014 role=PAS peer=172.20.0.3:57888
+2026-10-21 18:39:56,478 | LOGIN_OK user=user019 role=PDI peer=172.20.0.3:57942
+2026-10-21 18:39:56,482 | DISCONNECT peer=172.20.0.3:57838 user=user015 reason=logout duration=0.19s active=15
+2026-10-21 18:39:56,484 | DISCONNECT peer=172.20.0.3:57826 user=user020 reason=logout duration=0.20s active=14
+2026-10-21 18:39:56,487 | DISCONNECT peer=172.20.0.3:57912 user=user017 reason=logout duration=0.19s active=13
+2026-10-21 18:39:56,496 | DISCONNECT peer=172.20.0.3:57882 user=user012 reason=logout duration=0.20s active=12
+2026-10-21 18:39:56,498 | DISCONNECT peer=172.20.0.3:57870 user=user021 reason=logout duration=0.21s active=11
+2026-10-21 18:39:56,500 | DISCONNECT peer=172.20.0.3:57888 user=user014 reason=logout duration=0.21s active=10
+2026-10-21 18:39:56,500 | DISCONNECT peer=172.20.0.3:57812 user=user007 reason=logout duration=0.21s active=9
+2026-10-21 18:39:56,500 | DISCONNECT peer=172.20.0.3:57942 user=user019 reason=logout duration=0.20s active=8
+2026-10-21 18:39:56,509 | LOGIN_OK user=user011 role=PAS peer=172.20.0.3:57900
+2026-10-21 18:39:56,514 | DISCONNECT peer=172.20.0.3:57900 user=user011 reason=logout duration=0.22s active=7
+2026-10-21 18:39:56,527 | LOGIN_OK user=user004 role=PDI peer=172.20.0.3:57926
+2026-10-21 18:39:56,529 | LOGIN_OK user=user013 role=PDI peer=172.20.0.3:57952
+2026-10-21 18:39:56,530 | LOGIN_OK user=user001 role=PDI peer=172.20.0.3:57858
+2026-10-21 18:39:56,535 | LOGIN_OK user=user008 role=PAS peer=172.20.0.3:57970
+2026-10-21 18:39:56,536 | LOGIN_OK user=user009 role=INVESTIGADOR peer=172.20.0.3:57974
+2026-10-21 18:39:56,537 | DISCONNECT peer=172.20.0.3:57926 user=user004 reason=logout duration=0.24s active=6
+2026-10-21 18:39:56,542 | LOGIN_OK user=user010 role=PDI peer=172.20.0.3:57976
+2026-10-21 18:39:56,543 | DISCONNECT peer=172.20.0.3:57952 user=user013 reason=logout duration=0.24s active=5
+2026-10-21 18:39:56,544 | DISCONNECT peer=172.20.0.3:57858 user=user001 reason=logout duration=0.25s active=4
+2026-10-21 18:39:56,544 | LOGIN_OK user=user005 role=PAS peer=172.20.0.3:57958
+2026-10-21 18:39:56,551 | DISCONNECT peer=172.20.0.3:57970 user=user008 reason=logout duration=0.25s active=3
+2026-10-21 18:39:56,552 | DISCONNECT peer=172.20.0.3:57974 user=user009 reason=logout duration=0.24s active=2
+2026-10-21 18:39:56,553 | DISCONNECT peer=172.20.0.3:57976 user=user010 reason=logout duration=0.24s active=1
+2026-10-21 18:39:56,554 | DISCONNECT peer=172.20.0.3:57958 user=user005 reason=logout duration=0.25s active=0
+2026-10-21 18:39:56,582 | CONNECT peer=172.20.0.3:53028 cert_cn=user004 serial=795cfcec3514 TLSv1.3 TLS_AES_256_GCM_SHA384 active=1
+2026-10-21 18:39:56,583 | CONNECT peer=172.20.0.3:52918 cert_cn=user005 serial=5f9f4833d063 TLSv1.3 TLS_AES_256_GCM_SHA384 active=2
+2026-10-21 18:39:56,584 | CONNECT peer=172.20.0.3:52972 cert_cn=user012 serial=386cdfa6aaa1 TLSv1.3 TLS_AES_256_GCM_SHA384 active=3
+2026-10-21 18:39:56,585 | CONNECT peer=172.20.0.3:52924 cert_cn=user016 serial=16f387922574 TLSv1.3 TLS_AES_256_GCM_SHA384 active=4
+2026-10-21 18:39:56,585 | CONNECT peer=172.20.0.3:53072 cert_cn=user007 serial=390da8e94f01 TLSv1.3 TLS_AES_256_GCM_SHA384 active=5
+2026-10-21 18:39:56,585 | CONNECT peer=172.20.0.3:53058 cert_cn=user018 serial=66de985570f0 TLSv1.3 TLS_AES_256_GCM_SHA384 active=6
+2026-10-21 18:39:56,585 | CONNECT peer=172.20.0.3:52992 cert_cn=user017 serial=2b45328363f1 TLSv1.3 TLS_AES_256_GCM_SHA384 active=7
+2026-10-21 18:39:56,585 | CONNECT peer=172.20.0.3:53090 cert_cn=user013 serial=188bec56b7e3 TLSv1.3 TLS_AES_256_GCM_SHA384 active=8
+2026-10-21 18:39:56,586 | CONNECT peer=172.20.0.3:52976 cert_cn=user014 serial=69988def16c4 TLSv1.3 TLS_AES_256_GCM_SHA384 active=9
+2026-10-21 18:39:56,586 | CONNECT peer=172.20.0.3:53086 cert_cn=user010 serial=7f925d5a86fb TLSv1.3 TLS_AES_256_GCM_SHA384 active=10
+2026-10-21 18:39:56,587 | CONNECT peer=172.20.0.3:53050 cert_cn=user011 serial=4ed96471ae5f TLSv1.3 TLS_AES_256_GCM_SHA384 active=11
+2026-10-21 18:39:56,587 | CONNECT peer=172.20.0.3:53014 cert_cn=user015 serial=5d76def2c5b6 TLSv1.3 TLS_AES_256_GCM_SHA384 active=12
+2026-10-21 18:39:56,587 | CONNECT peer=172.20.0.3:53042 cert_cn=user006 serial=55f470ec906f TLSv1.3 TLS_AES_256_GCM_SHA384 active=13
+2026-10-21 18:39:56,587 | CONNECT peer=172.20.0.3:53000 cert_cn=user003 serial=6ec6a6a10d18 TLSv1.3 TLS_AES_256_GCM_SHA384 active=14
+2026-10-21 18:39:56,588 | CONNECT peer=172.20.0.3:52948 cert_cn=user019 serial=854d6ed7e884 TLSv1.3 TLS_AES_256_GCM_SHA384 active=15
+2026-10-21 18:39:56,588 | CONNECT peer=172.20.0.3:52986 cert_cn=user001 serial=4f127033f8fd TLSv1.3 TLS_AES_256_GCM_SHA384 active=16
+2026-10-21 18:39:56,588 | CONNECT peer=172.20.0.3:53024 cert_cn=user008 serial=f9a10155da7e TLSv1.3 TLS_AES_256_GCM_SHA384 active=17
+2026-10-21 18:39:56,588 | CONNECT peer=172.20.0.3:52940 cert_cn=user009 serial=30726d245f5c TLSv1.3 TLS_AES_256_GCM_SHA384 active=18
+2026-10-21 18:39:56,589 | CONNECT peer=172.20.0.3:52958 cert_cn=user020 serial=6110e206a377 TLSv1.3 TLS_AES_256_GCM_SHA384 active=19
+2026-10-21 18:39:56,589 | CONNECT peer=172.20.0.3:52936 cert_cn=user021 serial=13be7d83de90 TLSv1.3 TLS_AES_256_GCM_SHA384 active=20
+2026-10-21 18:39:56,685 | LOGIN_OK user=user004 role=PDI peer=172.20.0.3:53028
+2026-10-21 18:39:56,699 | LOGIN_OK user=user017 role=PAS peer=172.20.0.3:52992
+2026-10-21 18:39:56,704 | DISCONNECT peer=172.20.0.3:53028 user=user004 reason=logout duration=0.12s active=19
+2026-10-21 18:39:56,704 | LOGIN_OK user=user007 role=PDI peer=172.20.0.3:53072
+2026-10-21 18:39:56,714 | LOGIN_OK user=user005 role=PAS peer=172.20.0.3:52918
+2026-10-21 18:39:56,719 | LOGIN_OK user=user016 role=PDI peer=172.20.0.3:52924
+2026-10-21 18:39:56,727 | LOGIN_OK user=user003 role=INVESTIGADOR peer=172.20.0.3:53000
+2026-10-21 18:39:56,724 | DISCONNECT peer=172.20.0.3:52992 user=user017 reason=logout duration=0.13s active=18
+2026-10-21 18:39:56,724 | LOGIN_OK user=user013 role=PDI peer=172.20.0.3:53090
+2026-10-21 18:39:56,721 | LOGIN_OK user=user012 role=INVESTIGADOR peer=172.20.0.3:52972
+2026-10-21 18:39:56,734 | LOGIN_OK user=user014 role=PAS peer=172.20.0.3:52976
+2026-10-21 18:39:56,735 | DISCONNECT peer=172.20.0.3:53072 user=user007 reason=logout duration=0.14s active=17
+2026-10-21 18:39:56,736 | LOGIN_OK user=user018 role=INVESTIGADOR peer=172.20.0.3:53058
+2026-10-21 18:39:56,737 | LOGIN_OK user=user010 role=PDI peer=172.20.0.3:53086
+2026-10-21 18:39:56,738 | LOGIN_OK user=user011 role=PAS peer=172.20.0.3:53050
+2026-10-21 18:39:56,751 | DISCONNECT peer=172.20.0.3:52918 user=user005 reason=logout duration=0.16s active=16
+2026-10-21 18:39:56,759 | DISCONNECT peer=172.20.0.3:52924 user=user016 reason=logout duration=0.17s active=15
+2026-10-21 18:39:56,764 | DISCONNECT peer=172.20.0.3:53000 user=user003 reason=logout duration=0.17s active=14
+2026-10-21 18:39:56,768 | DISCONNECT peer=172.20.0.3:52972 user=user012 reason=logout duration=0.18s active=13
+2026-10-21 18:39:56,773 | DISCONNECT peer=172.20.0.3:53086 user=user010 reason=logout duration=0.18s active=12
+2026-10-21 18:39:56,775 | DISCONNECT peer=172.20.0.3:53090 user=user013 reason=logout duration=0.18s active=11
+2026-10-21 18:39:56,775 | DISCONNECT peer=172.20.0.3:52976 user=user014 reason=logout duration=0.18s active=10
+2026-10-21 18:39:56,776 | DISCONNECT peer=172.20.0.3:53050 user=user011 reason=logout duration=0.18s active=9
+2026-10-21 18:39:56,777 | DISCONNECT peer=172.20.0.3:53058 user=user018 reason=logout duration=0.19s active=8
+2026-10-21 18:39:56,779 | LOGIN_OK user=user015 role=INVESTIGADOR peer=172.20.0.3:53014
+2026-10-21 18:39:56,786 | DISCONNECT peer=172.20.0.3:53014 user=user015 reason=logout duration=0.19s active=7
+2026-10-21 18:39:56,790 | LOGIN_OK user=user001 role=PDI peer=172.20.0.3:52986
+2026-10-21 18:39:56,796 | DISCONNECT peer=172.20.0.3:52986 user=user001 reason=logout duration=0.20s active=6
+2026-10-21 18:39:56,797 | LOGIN_OK user=user019 role=PDI peer=172.20.0.3:52948
+2026-10-21 18:39:56,802 | LOGIN_OK user=user008 role=PAS peer=172.20.0.3:53024
+2026-10-21 18:39:56,804 | DISCONNECT peer=172.20.0.3:52948 user=user019 reason=logout duration=0.21s active=5
+2026-10-21 18:39:56,808 | DISCONNECT peer=172.20.0.3:53024 user=user008 reason=logout duration=0.21s active=4
+2026-10-21 18:39:56,811 | LOGIN_OK user=user006 role=INVESTIGADOR peer=172.20.0.3:53042
+2026-10-21 18:39:56,816 | LOGIN_OK user=user009 role=INVESTIGADOR peer=172.20.0.3:52940
+2026-10-21 18:39:56,817 | DISCONNECT peer=172.20.0.3:53042 user=user006 reason=logout duration=0.22s active=3
+2026-10-21 18:39:56,817 | LOGIN_OK user=user020 role=PAS peer=172.20.0.3:52958
+2026-10-21 18:39:56,820 | LOGIN_OK user=user021 role=INVESTIGADOR peer=172.20.0.3:52936
+2026-10-21 18:39:56,824 | DISCONNECT peer=172.20.0.3:52940 user=user009 reason=logout duration=0.23s active=2
+2026-10-21 18:39:56,825 | DISCONNECT peer=172.20.0.3:52958 user=user020 reason=logout duration=0.23s active=1
+2026-10-21 18:39:56,827 | DISCONNECT peer=172.20.0.3:52936 user=user021 reason=logout duration=0.23s active=0
