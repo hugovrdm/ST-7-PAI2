@@ -40,7 +40,7 @@ def _build(subject, public_key, ca_cert, ca_key, eku, san, days) -> x509.Certifi
 def issue_server_cert(cn: str, dns: list[str], ips: list[str], days: int = 365):
     ca_cert, ca_key = u.load_ca()
     key = u.new_key()
-    san = [x509.DNSName(d) for d in {cn, *dns}]
+    san = [x509.DNSName(d) for d in dict.fromkeys([cn, *dns])]
     san += [x509.IPAddress(ipaddress.ip_address(i)) for i in ips]
     cert = _build(u.subject_name(cn), key.public_key(), ca_cert, ca_key,
                   ExtendedKeyUsageOID.SERVER_AUTH, san, days)
@@ -79,7 +79,7 @@ def sign_client_csr(csr: x509.CertificateSigningRequest, username: str,
         raise ValueError(f"'{username}' ya tiene un certificado activo; revocalo antes")
 
     ca_cert, ca_key = u.load_ca()
-    san = [x509.DNSName(d) for d in dict.fromkeys([cn, *dns])]
+    san = [x509.RFC822Name(f"{username}@u-secure.es")]
     cert = _build(u.subject_name(username, ou=role), csr.public_key(), ca_cert, ca_key,
                   ExtendedKeyUsageOID.CLIENT_AUTH, san, days)
     u.register_cert(cert, username, "client", role)

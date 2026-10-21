@@ -3,13 +3,17 @@ services:
     build: .
     env_file: .env
     volumes:
-      - ./pki/store:/app/pki/store
+      - ./pki:/app/pki
+      - ./app:/app/app
       - ./data:/app/data
-    command: >
-      sh -c "[ -f pki/store/ca.crt ] || python -m pki.create_ca &&
-             [ -f pki/store/server.crt ] || python -m pki.issue_cert server
-               --cn vpn.u-secure.es --dns vpn.u-secure.es localhost --ip 127.0.0.1 &&
-             python -m app.seed_users --n 300"
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        [ -f pki/store/ca.crt ] || python -m pki.create_ca
+        [ -f pki/store/server.crt ] || python -m pki.issue_cert server --cn vpn.u-secure.es --dns vpn.u-secure.es localhost --ip 127.0.0.1
+        python -m app.seed_users --n 300
 
   server:
     build: .
@@ -18,7 +22,8 @@ services:
       pki-init:
         condition: service_completed_successfully
     volumes:
-      - ./pki/store:/app/pki/store
+      - ./pki:/app/pki
+      - ./app:/app/app
       - ./data:/app/data
       - ./logs:/app/logs
     ports:
@@ -42,6 +47,7 @@ services:
     env_file: .env
     depends_on: [server]
     volumes:
-      - ./pki/store:/app/pki/store
+      - ./pki:/app/pki
+      - ./app:/app/app
       - ./evidence:/app/evidence
     command: python -m app.client --host vpn.u-secure.es --port 8443 --user user001
