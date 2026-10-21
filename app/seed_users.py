@@ -14,6 +14,8 @@ def seed(n: int) -> None:
     nuevos = 0
     for i, role in zip(range(1, n + 1), cycle(ROLES)):
         name = f"user{i:03d}"
+        if users_db.exists(name):
+            continue                      # ya precargado: no tocar
         try:
             issue_client_bundle(name, role)
         except ValueError:
@@ -27,3 +29,5 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=300)
     seed(ap.parse_args().n)
+
+                    # ya precargado: no tocar

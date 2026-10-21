@@ -55,3 +55,11 @@ def verify(username: str, password: str) -> dict | None:
     if row and hmac.compare_digest(h, row[1]):
         return {"role": row[2], "cert_serial": row[3]}
     return None
+
+def exists(username: str) -> bool:
+    conn = _conn()
+    try:
+        return conn.execute("SELECT 1 FROM users WHERE username=?",
+                            (username,)).fetchone() is not None
+    finally:
+        conn.close()
